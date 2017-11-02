@@ -1,0 +1,38 @@
+# Returns successful if branch already exists,
+# OR if branch doesn't exist but was successfully
+# created.
+#
+# Only returns failure if it can't talk to git repo,
+# or if it tries to push a new empty branch & fails
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: bravissimolabs/alpine-git
+    tag: 'latest'
+
+params:
+  TARGET_BRANCH: version
+  ACCESS_TOKEN: # token will require 'repo' access
+
+  REPOSITORY: # TODO auto-populates if left empty
+  OWNER: # TODO auto-populates if left empty
+  CONFIG_EMAIL: "concourse@bot.biz"
+  CONFIG_NAME: "Concourse Bot"
+  AUTO_COMMIT_MSG: "auto-generated root commit"
+  URL_PROTOCOL: https # TODO auto-populates if left empty
+  URL_HOST: github.com # TODO auto-populates if left empty
+
+  # !! WARNING !!
+  # Debug mode will show your access token in the
+  # build output
+  DEBUG: false
+
+inputs:
+- name: pipeline-tasks
+- name: project
+
+run:
+  path: pipeline-tasks/semver-branch-tool/task.sh
