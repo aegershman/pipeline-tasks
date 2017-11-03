@@ -33,4 +33,4 @@ outputs:
 - name: task-output
 
 run:
-  path: pipeline-tasks/build-frontend-maven-surefire-report-semver-cache/task.sh
+  path: pipeline-tasks/build-maven-surefire-report-semver-cache-frontend/task.sh
