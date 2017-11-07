@@ -4,8 +4,10 @@ Common Concourse Pipeline Tasks
 ## Pipelines
 Premise is to provide a set of resources, strung together serially, to take an application from build to production and the steps along the way. Pipeline is triggered at code commit, using maven and semver an artifact for deployment is created. The phases from development, test, stage and production can be setup using regulator and triggered manually unless otherise set.
 
+### Push Webapp
 ![Push Webapp Base](./images/push-webapp-base.png)
 
+### Push Webapp Custom
 ![Push Webapp Extras](./images/push-webapp-extras.png)
 
 
