@@ -8,6 +8,11 @@ set -o pipefail
 
 cd project
 
+if [ ! -f "./package.json" ]; then
+  echo "package.json not found in root dir: exiting gracefully."
+  exit 0;
+fi
+
 yarn install --silent
 yarn run test --runInBand
 yarn run stylelint

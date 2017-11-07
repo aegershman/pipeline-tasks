@@ -13,7 +13,7 @@ version=$(cat version/version)
 if [ "$(ls -A js-assets)" ]; then
   mkdir -p project/"$RESOURCE_DIR" && mv js-assets/* project/"$RESOURCE_DIR"
 else
-  echo "js-assets folder is empty!" && exit 1
+  echo "warning: js-assets folder is empty!"
 fi
 
 cd project
