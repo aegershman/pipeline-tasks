@@ -65,5 +65,6 @@ jobs:
     - get: version
       params: {pre: rc}
   - task: build-yarn
-    image: vm-override # Override the task with the VM
+    file: pipeline-tasks/build-yarn/task.yml
+    image: vm-override # Override the task's `image_resource` with your VM
 ```
