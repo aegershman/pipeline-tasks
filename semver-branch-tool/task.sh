@@ -41,7 +41,10 @@ create_new_semver_branch() {
   rm -rf -- *
   rm -f .gitignore .gitmodules
   git commit --allow-empty -m "auto-generated root commit"
-  git push origin "$TARGET_BRANCH"
+  
+  # Silence the push or else it'll broadcast the access token.
+  # Use both --quiet and redirect to null. Just to be safe.
+  git push origin "$TARGET_BRANCH" --quiet &> /dev/null
 }
 
 cd project
