@@ -21,9 +21,9 @@ image_resource:
     tag: 'latest'
 
 params:
-  TARGET_BRANCH: version
+  TARGET_BRANCH: version # branch to create
   ACCESS_TOKEN: # token will require 'repo' access
-  INCLUDE_README: true
+  INCLUDE_README: true # Whether the semver branch should be populated with a short README explaining what the branch is / how it was made
 
   # !! WARNING !!
   # Debug mode will show your access token in the
