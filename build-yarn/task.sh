@@ -13,8 +13,6 @@ if [ ! -f "./package.json" ]; then
   exit 0;
 fi
 
-yarn install --silent
-yarn run test --runInBand
-yarn run stylelint
-yarn run lint
-yarn run bundle -p --output-path=../js-assets/
+yarn install
+yarn test
+yarn bundle -p --output-path=../js-assets/
