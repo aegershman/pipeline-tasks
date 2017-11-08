@@ -23,6 +23,7 @@ image_resource:
 params:
   TARGET_BRANCH: version
   ACCESS_TOKEN: # token will require 'repo' access
+  INCLUDE_README: true
 
   # !! WARNING !!
   # Debug mode will show your access token in the

@@ -6,11 +6,31 @@ set -o nounset
 set -o pipefail
 [ 'true' = "${DEBUG:-}" ] && set -o xtrace
 
+include_readme() {
+touch README.md
+cat > README.md << '_EOF'
+  # Semver Branch
+  This branch was auto-generated on Concourse with a task using the following commands:
+  ```
+  git checkout --orphan "$TARGET_BRANCH"
+  git rm --cached -rf .
+  rm -rf -- *
+  rm -f .gitignore .gitmodules
+  git commit --allow-empty -m "auto-generated root commit"
+  git push origin "$TARGET_BRANCH" --quiet &> /dev/null
+  ```
+  This will not create the semver _file_.
+  The semver [_resource_](https://github.com/concourse/semver-resource#source-configuration) will create the file using `inital_version:`
+_EOF
+
+git add README.md
+}
+
+
 configure_git() {
   git config --global user.email "concourse@bot.biz"
   git config --global user.name "Concourse Bot"
 
-  # Modify the remote URL to contain the access token
   url=$(git ls-remote --get-url origin)
   if [[ $url =~ .*@.* ]]; then
     echo "Parsing an SSH remote url..."
@@ -26,24 +46,17 @@ configure_git() {
 
   git remote rm origin
   git remote add origin "$url"
-
-  # Without this Concourse would push a branch to remote the first time,
-  # then the next time the task ran, it would use the cached 
-  # git resource which doesn't have a reference to the target branch.
   git fetch --all
 }
 
-# We won't create the version file; that'll be responsibility of semver resource.
-# Sole purpose is to create the semver branch if it doesn't exist.
+
 create_new_semver_branch() {
   git checkout --orphan "$TARGET_BRANCH"
   git rm --cached -rf .
   rm -rf -- *
   rm -f .gitignore .gitmodules
+  [ 'true' = "$INCLUDE_README" ] && include_readme
   git commit --allow-empty -m "auto-generated root commit"
-  
-  # Silence the push or else it'll broadcast the access token.
-  # Use both --quiet and redirect to null. Just to be safe.
   git push origin "$TARGET_BRANCH" --quiet &> /dev/null
 }
 
@@ -53,9 +66,8 @@ configure_git
 
 if git show-ref --quiet --verify -- "refs/remotes/origin/$TARGET_BRANCH"; then
   echo "Branch $TARGET_BRANCH already exists. Exiting."
-else
-  echo "Creating branch $TARGET_BRANCH..."
-  create_new_semver_branch
+  exit 0;
 fi
 
-exit 0
+echo "Creating branch $TARGET_BRANCH..."
+create_new_semver_branch
