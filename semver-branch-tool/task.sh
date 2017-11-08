@@ -7,13 +7,25 @@ set -o pipefail
 [ 'true' = "${DEBUG:-}" ] && set -o xtrace
 
 configure_git() {
-  git config --global user.email "$CONFIG_EMAIL"
-  git config --global user.name "$CONFIG_NAME"
+  git config --global user.email "concourse@bot.biz"
+  git config --global user.name "Concourse Bot"
 
-  # repository=$(basename $(git ls-remote --get-url origin) .git)
+  # Modify the remote URL to contain the access token
+  url=$(git ls-remote --get-url origin)
+  if [[ $url =~ .*@.* ]]; then
+    echo "Parsing an SSH remote url..."
+    url=${url//://} # git@github.com:Org/repo => git@github.com/Org/repo
+    url="${url/*@/https://$ACCESS_TOKEN@}" # => https://TOKEN@github.com/Org/repo
+  elif [[ $httpsExample =~ .*https://.* ]]; then
+    echo "Parsing an HTTPS remote url..."
+    url="${url/https:\/\//https://$ACCESS_TOKEN@}" # https://github.com... => https://TOKEN@github.com...
+  else
+    echo "Unable to determine git remote protocol. Must be either ssh or https."
+    exit 1
+  fi
 
   git remote rm origin
-  git remote add origin "$URL_PROTOCOL://$OWNER:$ACCESS_TOKEN@$URL_HOST/$OWNER/$REPOSITORY.git"
+  git remote add origin "$url"
 
   # Without this Concourse would push a branch to remote the first time,
   # then the next time the task ran, it would use the cached 
@@ -28,7 +40,7 @@ create_new_semver_branch() {
   git rm --cached -rf .
   rm -rf -- *
   rm -f .gitignore .gitmodules
-  git commit --allow-empty -m "$AUTO_COMMIT_MSG"
+  git commit --allow-empty -m "auto-generated root commit"
   git push origin "$TARGET_BRANCH"
 }
 

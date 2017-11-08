@@ -24,14 +24,6 @@ params:
   TARGET_BRANCH: version
   ACCESS_TOKEN: # token will require 'repo' access
 
-  REPOSITORY: # TODO auto-populates if left empty
-  OWNER: # TODO auto-populates if left empty
-  CONFIG_EMAIL: "concourse@bot.biz"
-  CONFIG_NAME: "Concourse Bot"
-  AUTO_COMMIT_MSG: "auto-generated root commit"
-  URL_PROTOCOL: https # TODO auto-populates if left empty
-  URL_HOST: github.com # TODO auto-populates if left empty
-
   # !! WARNING !!
   # Debug mode will show your access token in the
   # build output
