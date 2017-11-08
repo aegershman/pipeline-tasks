@@ -16,7 +16,7 @@ configure_git() {
     echo "Parsing an SSH remote url..."
     url=${url//://} # git@github.com:Org/repo => git@github.com/Org/repo
     url="${url/*@/https://$ACCESS_TOKEN@}" # => https://TOKEN@github.com/Org/repo
-  elif [[ $httpsExample =~ .*https://.* ]]; then
+  elif [[ $url =~ .*https://.* ]]; then
     echo "Parsing an HTTPS remote url..."
     url="${url/https:\/\//https://$ACCESS_TOKEN@}" # https://github.com... => https://TOKEN@github.com...
   else
