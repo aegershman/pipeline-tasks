@@ -1,6 +1,4 @@
-#!/bin/bash
-# This script assumes Maven Wrapper is used with Maven v3.5.0 or higher.
-#   see: https://maven.apache.org/maven-ci-friendly.html
+#!/bin/ash
 #
 # All UPERCASE variables are provided externally from this script
 
@@ -18,8 +16,6 @@ args="-Drevision=$version"
 [ -n "$MAVEN_REPO_PASSWORD" ] && args="$args -Drepository.password=$MAVEN_REPO_PASSWORD";
 [ "true" = "$MAVEN_REPO_CACHE_ENABLE" ] && args="$args -Dmaven.repo.local=$PWD/.m2repository"
 
-./mvnw install $args
+./mvnw test-compile failsafe:integration-test failsafe:verify $args
 
 cd ..
-
-cp project/target/*.jar task-output/.

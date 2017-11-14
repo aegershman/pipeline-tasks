@@ -1,6 +1,3 @@
-# Builds a maven project and copies the artifact to the task-output folder
-# Modified to work with the frontend-maven-plugin
-# https://github.com/eirslett/frontend-maven-plugin
 ---
 platform: linux
 
@@ -8,7 +5,7 @@ image_resource:
   type: docker-image
   source:
     repository: openjdk
-    tag: '8-jdk'
+    tag: '8-jdk-alpine'
 
 params:
   MAVEN_OPTS:
@@ -20,17 +17,12 @@ params:
   MAVEN_REPO_CACHE_ENABLE: false # set this to true in your pipeline to cache your repo on the worker
 
 inputs:
+- name: version
 - name: pipeline-tasks
 - name: project
-- name: version
 
 caches:
 - path: project/.m2repository
-- path: project/node
-- path: project/node_modules
-
-outputs:
-- name: task-output
 
 run:
-  path: pipeline-tasks/build-maven-surefire-report-semver-cache-frontend/task.sh
+  path: pipeline-tasks/run-maven-failsafe-semver-cache/task.sh
