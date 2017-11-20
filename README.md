@@ -7,10 +7,6 @@ Premise is to provide a set of resources, strung together serially, to take an a
 ### Push Webapp
 ![Push Webapp Base](./images/push-webapp-base.png)
 
-### Push Webapp Custom
-![Push Webapp Extras](./images/push-webapp-extras.png)
-
-
 ## Examples
 
 All examples use the following resources:
