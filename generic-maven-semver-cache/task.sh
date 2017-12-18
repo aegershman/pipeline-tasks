@@ -6,6 +6,7 @@
 
 set -eu
 set -o pipefail
+[ 'true' = "${DEBUG:-}" ] && set -x
 
 version=$(cat version/version)
 
