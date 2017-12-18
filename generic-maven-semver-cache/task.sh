@@ -26,4 +26,6 @@ cd ..
 
 if [ -d project/target ]; then
   cp -a project/target/* task-output/.
+else
+  echo "No target folder could be found. Exiting gracefully."
 fi
