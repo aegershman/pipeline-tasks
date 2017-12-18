@@ -24,4 +24,6 @@ args="-Drevision=$version"
 
 cd ..
 
-cp -a project/target/* task-output/.
+if [ -d project/target ]; then
+  cp -a project/target/* task-output/.
+fi
