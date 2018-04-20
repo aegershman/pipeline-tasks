@@ -25,6 +25,10 @@ cd ..
 
 if [ -d project/target ]; then
   cp -a project/target/* task-output/.
+elif [ -f project/*pom.xml ]; then
+  output=$(printf 'LOCAL_REPOSITORY=${settings.localRepository}\nGROUP_ID=${project.groupId}\nARTIFACT_ID=${project.artifactId}\nPOM_VERSION=${project.version}\n0\n' | ./mvnw help:evaluate $args)
+  artifactId=$(echo "$output" | grep '^ARTIFACT_ID' | cut -d = -f 2)
+  cp -a project/*pom.xml task-output/${artifactId}-pom.xml
 else
   echo "No target folder could be found. Exiting gracefully."
 fi
