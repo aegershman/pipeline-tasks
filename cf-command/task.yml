@@ -1,4 +1,3 @@
-# Builds a maven project and copies the artifact to the task-output folder
 ---
 platform: linux
 
