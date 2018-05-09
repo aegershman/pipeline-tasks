@@ -1,0 +1,21 @@
+# Builds a maven project and copies the artifact to the task-output folder
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: nulldriver
+    tag: 'cf-cli-resource'
+
+params:
+  api: 
+  org: 
+  space:
+  username:
+  password:
+  skip_cert_check: 'false'
+  COMMAND:
+
+run:
+  path: pipeline-tasks/cf-command/task.sh
