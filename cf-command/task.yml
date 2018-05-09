@@ -8,6 +8,9 @@ image_resource:
     repository: nulldriver/cf-cli-resource
     tag: 'latest'
 
+inputs:
+- name: pipeline-tasks
+
 params:
   api: 
   org: 
