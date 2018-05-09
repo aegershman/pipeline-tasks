@@ -18,6 +18,7 @@ params:
   password:
   skip_cert_check: 'false'
   COMMAND:
+  DEBUG: 'false'
 
 run:
   path: pipeline-tasks/cf-command/task.sh
